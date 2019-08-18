@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Globals:
+  Function:
+    Timeout: 5
+Resources:
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bin
+      Handler: hello
+      Runtime: go1.x
+      Tracing: Active
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: GET
+Outputs:
+  HelloAPI:
+    Description: "API Gateway endpoint URL for Prod environment for First Function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloFunction:
+    Description: "First Lambda Function ARN"
+    Value: !GetAtt HelloFunction.Arn
+  HelloFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloFunctionRole.Arn
+  # URL:
+  #   Description: URL for HTTPS Endpoint
+  #   Value:
+  #     Fn::Join:
+  #       - ''
+  #       - - https://
+  #         - Ref: ServerlessRestApi
+  #         - ".execute-api."
+  #         - Ref: AWS::Region
+  #         - ".amazonaws.com/"
+  #         - Ref: ServerlessRestApiProdStage  

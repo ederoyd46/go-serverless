@@ -1,0 +1,16 @@
+{
+  "name": "lego-payment-service-go-demo",
+  "version": "0.0.1",
+  "license": "UNLICENSED",
+  "scripts": {
+    "package": "make && serverless package",
+    "deploy": "make && serverless deploy",
+    "offline": "make && serverless offline --stage dev --noAuth",
+    "remove": "serverless remove"
+  },
+  "devDependencies": {
+    "serverless": "^1.50.0",
+    "serverless-offline": "^5.10.1"
+  },
+  "dependencies": {}
+}
