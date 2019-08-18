@@ -8,6 +8,9 @@ build:
 offline: build
 	sam local start-api
 
+offline-skip: build
+	sam local start-api --skip-pull-image
+
 clean:
 	rm -rf ./bin
 
@@ -41,8 +44,3 @@ remove:
 outputs: 
 	aws cloudformation describe-stacks \
     	--stack-name $(STACK) --query 'Stacks[].Outputs'
-
-urls:
-	aws cloudformation describe-stacks \
-    	--stack-name $(STACK) --query 'Stacks[].Outputs[].OutputValue'
-
