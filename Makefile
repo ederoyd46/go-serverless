@@ -29,12 +29,6 @@ deploy:
 log: 
 	sam logs --stack-name $(STACK) --name Hello
 
-create-bucket: 
-	aws s3 mb s3://$(STACK)
-
-remove-bucket: 
-	aws s3 rb s3://$(STACK) --force
-
 describe: 
 	aws cloudformation describe-stacks --stack-name $(STACK)
 
@@ -44,3 +38,9 @@ remove:
 outputs: 
 	aws cloudformation describe-stacks \
     	--stack-name $(STACK) --query 'Stacks[].Outputs'
+
+create-bucket: 
+	aws s3 mb s3://$(STACK)
+
+remove-bucket: 
+	aws s3 rb s3://$(STACK) --force
