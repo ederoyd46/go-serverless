@@ -17,6 +17,19 @@ Resources:
           Properties:
             Path: /hello
             Method: GET
+      Policies: 
+        - DynamoDBCrudPolicy:
+            TableName: matt-go-dev-HelloTable-Z9T2M7Y0IRIT
+  HelloTable:
+      Type: AWS::DynamoDB::Table
+      Properties: 
+        AttributeDefinitions: 
+          - AttributeName: id
+            AttributeType: N
+        KeySchema: 
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
 Outputs:
   HelloAPI:
     Description: "API Gateway endpoint URL for Prod environment for First Function"
@@ -27,14 +40,3 @@ Outputs:
   HelloFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloFunctionRole.Arn
-  # URL:
-  #   Description: URL for HTTPS Endpoint
-  #   Value:
-  #     Fn::Join:
-  #       - ''
-  #       - - https://
-  #         - Ref: ServerlessRestApi
-  #         - ".execute-api."
-  #         - Ref: AWS::Region
-  #         - ".amazonaws.com/"
-  #         - Ref: ServerlessRestApiProdStage  

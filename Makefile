@@ -20,14 +20,14 @@ package: build
 		--output-template-file packaged.yml \
 		--s3-bucket $(STACK)
 
-deploy: 
+deploy:
 	sam deploy \
 		--template-file packaged.yml \
 		--stack-name $(STACK) \
 		--capabilities CAPABILITY_IAM
 
 log: 
-	sam logs --stack-name $(STACK) --name Hello
+	sam logs --stack-name $(STACK) --name HelloFunction
 
 describe: 
 	aws cloudformation describe-stacks --stack-name $(STACK)

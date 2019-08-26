@@ -4,9 +4,15 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the
@@ -18,6 +24,8 @@ type Response events.APIGatewayProxyResponse
 // Handler is our lambda handler invoked by the `lambda.Start` function call
 func Handler(ctx context.Context) (Response, error) {
 	var buf bytes.Buffer
+
+	addDynamoDBEntry()
 
 	body, err := json.Marshal(map[string]interface{}{
 		"message": "Go Serverless v1.0! Your function executed successfully!",
@@ -38,6 +46,41 @@ func Handler(ctx context.Context) (Response, error) {
 	}
 
 	return resp, nil
+}
+
+// Item struct to hold info about new item
+type Item struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func addDynamoDBEntry() {
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
+
+	// Create DynamoDB client
+	svc := dynamodb.New(sess)
+	item := Item{ID: 1, Name: "Hello"}
+
+	av, err := dynamodbattribute.MarshalMap(item)
+	if err != nil {
+		panic("Marshal went wrong")
+	}
+
+	input := &dynamodb.PutItemInput{
+		Item:      av,
+		TableName: aws.String("matt-go-dev-HelloTable-Z9T2M7Y0IRIT")}
+
+	_, err = svc.PutItem(input)
+
+	if err != nil {
+		fmt.Println("Error calling PutItem")
+		fmt.Println(err.Error())
+		return
+	}
+
+	fmt.Println("Added item")
 }
 
 func main() {
