@@ -17,12 +17,16 @@ Resources:
           Properties:
             Path: /hello
             Method: GET
+      Environment: 
+        Variables:
+          TABLE_NAME: !Ref HelloTable
       Policies: 
         - DynamoDBCrudPolicy:
-            TableName: matt-go-dev-HelloTable-Z9T2M7Y0IRIT
+            TableName: !Ref HelloTable
   HelloTable:
       Type: AWS::DynamoDB::Table
       Properties: 
+        TableName: HelloTableName
         AttributeDefinitions: 
           - AttributeName: id
             AttributeType: N
