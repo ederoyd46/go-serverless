@@ -23,6 +23,12 @@ Resources:
       Policies: 
         - DynamoDBCrudPolicy:
             TableName: !Ref HelloTable
+      Events:
+        GetHello:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
   HelloTable:
       Type: AWS::DynamoDB::Table
       Properties: 
