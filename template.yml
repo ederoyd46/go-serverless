@@ -22,7 +22,7 @@ Resources:
           TABLE_NAME: !Ref HelloTable
       Policies: 
         - DynamoDBCrudPolicy:
-            TableName: !Ref HelloTable
+            TableName: !GetAtt HelloTable.Arn
       Events:
         GetHello:
           Type: Api
