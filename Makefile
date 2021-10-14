@@ -1,6 +1,6 @@
 .PHONY: build clean package deploy log create-bucket remove-bucket describe remove outputs urls
 
-STACK=matt-go-dev
+STACK=ederoyd
 
 build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/hello src/handlers/hello/hello.go
@@ -39,8 +39,8 @@ outputs:
 	aws cloudformation describe-stacks \
     	--stack-name $(STACK) --query 'Stacks[].Outputs'
 
-create-bucket: 
-	aws s3 mb s3://$(STACK)
+# create-bucket: 
+# 	aws s3 mb s3://$(STACK)
 
-remove-bucket: 
-	aws s3 rb s3://$(STACK) --force
+# remove-bucket: 
+# 	aws s3 rb s3://$(STACK) --force
